@@ -164,7 +164,7 @@
  </div>
  <!-- Date Tabs -->
  <div class="date-tabs">
-   <button class="date-tab active">📅 今天</button>
+   <button class="date-tab active" data-date="today" onclick="showDate('today')">📅 今天</button>
   <button class="date-tab" data-date="2026-03-11" onclick="showDate('2026-03-11')">📅 03月11日</button>
  </div>
  <!-- Screen Container -->
@@ -248,6 +248,28 @@
 
 <script>
 function showDate(date) {
+  // Handle 'today' - show placeholder
+  if (date === 'today') {
+    const screens = document.querySelectorAll(".screen");
+    screens.forEach(screen => {
+      screen.classList.remove("active");
+    });
+    setTimeout(() => {
+      const placeholder = document.getElementById("screen-placeholder");
+      if (placeholder) {
+        placeholder.classList.add("active");
+      }
+    }, 50);
+    const tabs = document.querySelectorAll(".date-tab");
+    tabs.forEach(tab => {
+      tab.classList.remove("active");
+      if (tab.getAttribute("data-date") === 'today') {
+        tab.classList.add("active");
+      }
+    });
+    return;
+  }
+  
   const screens = document.querySelectorAll(".screen");
   screens.forEach(screen => {
     screen.classList.remove("active");
