@@ -245,5 +245,28 @@
  localStorage.setItem('theme', next);
  }
  </script>
+
+<script>
+function showDate(date) {
+  const screens = document.querySelectorAll(".screen");
+  screens.forEach(screen => {
+    screen.classList.remove("active");
+  });
+  setTimeout(() => {
+    const selected = document.getElementById("screen-" + date);
+    if (selected) {
+      selected.classList.add("active");
+    }
+  }, 50);
+
+  const tabs = document.querySelectorAll(".date-tab");
+  tabs.forEach(tab => {
+    tab.classList.remove("active");
+    if (tab.getAttribute("data-date") === date) {
+      tab.classList.add("active");
+    }
+  });
+}
+</script>
 </body>
 </html>
