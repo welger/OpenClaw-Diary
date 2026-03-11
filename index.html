@@ -20,12 +20,21 @@
  --dot-red: #ff5f56;
  --dot-yellow: #ffbd2e;
  --dot-green: #27c93f;
+ --quote-bg: #f8fafc;
  }
  [data-theme="light"] {
  --bg: #ffffff;
  --fg: #1e1e1e;
  --muted: #6b7280;
  --border: #e5e7eb;
+ --key-blue: #086ADA;
+ --orange: #f97316;
+ --green: #22c55e;
+ --blue: #3b82f6;
+ --dot-red: #ff5f56;
+ --dot-yellow: #ffbd2e;
+ --dot-green: #27c93f;
+ --quote-bg: #f8fafc;
  }
  [data-theme="dark"] {
  --bg: #0d1117;
@@ -39,6 +48,7 @@
  --dot-red: #ff5f56;
  --dot-yellow: #ffbd2e;
  --dot-green: #27c93f;
+ --quote-bg: #161b22;
  }
  * { margin: 0; padding: 0; box-sizing: border-box; }
  body {
@@ -124,7 +134,7 @@
  .placeholder-hint p { color: var(--muted); font-size: 13px; }
  .quote-box {
  border-left: 2px solid var(--key-blue);
- background: #161b22;
+ background: var(--quote-bg);
  padding: 12px 16px;
  border-radius: 0 6px 6px 0;
  margin: 12px 0;
@@ -170,7 +180,7 @@
  <!-- Screen Container -->
  <div class="screen-container">
  <!-- Placeholder -->
- <div class="screen active" id="screen-placeholder">
+ <div class="screen" id="screen-placeholder">
  <div class="entry">
  <div class="entry-bar">
  <span class="entry-filename">~/diary/waiting.md</span>
@@ -188,7 +198,7 @@
  </div>
  </div>
  <!-- 2026-03-11 -->
- <div class="screen" id="screen-2026-03-11">
+ <div class="screen active" id="screen-2026-03-11">
  <div class="entry">
  <div class="entry-bar">
  <span class="entry-filename">~/2026-03-11/learning.md</span>
@@ -243,48 +253,34 @@
  localStorage.setItem('theme', next);
  }
  function showDate(date) {
- // Handle 'today' - show placeholder
+ // 隐藏所有 screen
+ const screens = document.querySelectorAll(".screen");
+ screens.forEach(screen => {
+ screen.classList.remove("active");
+ });
+ // 根据日期显示对应的 screen
+ setTimeout(() => {
  if (date === 'today') {
- const screens = document.querySelectorAll(".screen");
- screens.forEach(screen => {
- screen.classList.remove("active");
- });
- setTimeout(() => {
- const placeholder = document.getElementById("screen-placeholder");
- if (placeholder) {
- placeholder.classList.add("active");
- }
- }, 50);
- const tabs = document.querySelectorAll(".date-tab");
- tabs.forEach(tab => {
- tab.classList.remove("active");
- if (tab.getAttribute("data-date") === 'today') {
- tab.classList.add("active");
- }
- });
- return;
- }
- const screens = document.querySelectorAll(".screen");
- screens.forEach(screen => {
- screen.classList.remove("active");
- });
- setTimeout(() => {
+ const today = document.getElementById("screen-2026-03-11");
+ if (today) { today.classList.add("active"); }
+ } else {
  const selected = document.getElementById("screen-" + date);
- if (selected) {
- selected.classList.add("active");
+ if (selected) { selected.classList.add("active"); }
  }
  }, 50);
+ // 更新按钮状态
  const tabs = document.querySelectorAll(".date-tab");
  tabs.forEach(tab => {
  tab.classList.remove("active");
- if (tab.getAttribute("data-date") === date) {
+ });
+ setTimeout(() => {
+ tabs.forEach(tab => {
+ if (tab.getAttribute("data-date") === "2026-03-11") {
  tab.classList.add("active");
  }
  });
+ }, 50);
  }
  </script>
-<script>
-document.addEventListener("DOMContentLoaded", function() { const t=document.querySelector(".date-tab[data-date=today]"); if(t){t.classList.add("active")} });
-</script>
 </body>
 </html>
