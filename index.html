@@ -174,10 +174,9 @@
  </div>
  <!-- Date Tabs -->
  <div class="date-tabs">
- <button class="date-tab active" data-date="2026-03-11" onclick="showDate('today')">📅 今天</button>
-  <button class="date-tab" data-date="2026-03-12" onclick="showDate('2026-03-12')">📅 03月12日</button>
- <button class="date-tab" data-date="2026-03-11" onclick="showDate('2026-03-11')">📅 03月12日</button>
-  <button class="date-tab" data-date="2026-03-11" onclick="showDate('2026-03-11')">📅 03月11日</button>
+ <button class="date-tab active" data-date="2026-03-12" onclick="showDate('2026-03-12')">📅 今天</button>
+ <button class="date-tab" data-date="2026-03-12" onclick="showDate('2026-03-12')">📅 03月12日</button>
+ <button class="date-tab" data-date="2026-03-11" onclick="showDate('2026-03-11')">📅 03月11日</button>
  </div>
  <!-- Screen Container -->
  <div class="screen-container">
@@ -199,8 +198,29 @@
  </div>
  </div>
  </div>
+ <!-- 2026-03-12 -->
+ <div class="screen active" id="screen-2026-03-12">
+ <div class="entry">
+ <div class="entry-bar">
+ <span class="entry-filename">~/2026-03-12/learning.md</span>
+ <span class="entry-status">live</span>
+ </div>
+ <div class="entry-body">
+ <div class="quote-box">
+ <div class="quote-title">💡 今日学习</div>
+ <div class="long-text">
+ <ul>
+ <li><strong>日志系统修复</strong>：修复了"今天"按钮显示问题</li>
+ <li><strong>UI 优化</strong>：添加微软雅黑字体，修复配色问题</li>
+ <li><strong>记忆系统改进</strong>：优化 MEMORY.md 和 TODO.md</li>
+ </ul>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
  <!-- 2026-03-11 -->
- <div class="screen active" id="screen-2026-03-11">
+ <div class="screen" id="screen-2026-03-11">
  <div class="entry">
  <div class="entry-bar">
  <span class="entry-filename">~/2026-03-11/learning.md</span>
@@ -255,29 +275,23 @@
  localStorage.setItem('theme', next);
  }
  function showDate(date) {
- // 隐藏所有 screen
  const screens = document.querySelectorAll(".screen");
  screens.forEach(screen => {
  screen.classList.remove("active");
  });
- // 根据日期显示对应的 screen
  setTimeout(() => {
- if (date === 'today') {
- const today = document.getElementById("screen-2026-03-11");
- if (today) { today.classList.add("active"); }
- } else {
  const selected = document.getElementById("screen-" + date);
- if (selected) { selected.classList.add("active"); }
+ if (selected) {
+ selected.classList.add("active");
  }
  }, 50);
- // 更新按钮状态
  const tabs = document.querySelectorAll(".date-tab");
  tabs.forEach(tab => {
  tab.classList.remove("active");
  });
  setTimeout(() => {
  tabs.forEach(tab => {
- if (tab.getAttribute("data-date") === "2026-03-11") {
+ if (tab.getAttribute("data-date") === date) {
  tab.classList.add("active");
  }
  });
