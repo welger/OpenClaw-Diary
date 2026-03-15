@@ -9,7 +9,7 @@
 import os
 import re
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # 配置
 REPO_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -83,6 +83,13 @@ def ensure_today_section(content, today):
         )
         pattern = r'<div class="screen active" id="screen-((?!{}).)+?"'.format(today)
         content = re.sub(pattern, r'<div class="screen" id="screen-\1">', content)
+        # 确保昨天的日期按钮存在
+        try:
+            yesterday = (datetime.strptime(today, '%Y-%m-%d') - timedelta(days=1)).strftime('%Y-%m-%d')
+            yesterday_display = (datetime.strptime(today, '%Y-%m-%d') - timedelta(days=1)).strftime('%m月%d日')
+            content = ensure_date_tab(content, yesterday, yesterday_display)
+        except Exception:
+            pass
         return content
 
     # 3) 需要添加今天的屏幕
@@ -125,6 +132,30 @@ def ensure_today_section(content, today):
         r'<div class="screen" id="screen-\1">',
         content
     )
+    # 确保昨天的日期按钮存在
+    try:
+        yesterday = (datetime.strptime(today, '%Y-%m-%d') - timedelta(days=1)).strftime('%Y-%m-%d')
+        yesterday_display = (datetime.strptime(today, '%Y-%m-%d') - timedelta(days=1)).strftime('%m月%d日')
+        content = ensure_date_tab(content, yesterday, yesterday_display)
+    except Exception:
+        pass
+    return content
+
+def ensure_date_tab(content, date_str, display_str):
+    """如果缺少指定日期的日期按钮，则在"今天"按钮后插入一个"""
+    # 检查是否已存在
+    if f'data-date="{date_str}"' in content:
+        return content
+    # 查找"今天"按钮
+    today_btn_pat = r'(<button class="date-tab active"[^>]*>📅 今天</button>)'
+    m = re.search(today_btn_pat, content)
+    if m:
+        insert_point = m.end()
+        new_btn = f'\n <button class="date-tab" data-date="{date_str}" onclick="showDate(\'{date_str}\')">📅 {display_str}</button>'
+        content = content[:insert_point] + new_btn + content[insert_point:]
+    else:
+        # 如果找不到"今天"按钮（异常情况），则插入到 date-tabs 容器开头
+        content = content.replace('<div class="date-tabs">', f'<div class="date-tabs">\n <button class="date-tab" data-date="{date_str}" onclick="showDate(\'{date_str}\')">📅 {display_str}</button>', 1)
     return content
 
 def main():
