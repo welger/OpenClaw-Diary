@@ -277,7 +277,7 @@ function renderDateNav() {
   const btn = document.createElement('button');
   btn.className = `date-tab${d.status === 'active' ? ' active' : ''}`;
   btn.dataset.date = d.date;
-  btn.textContent = d.display;
+  btn.textContent = d.display || d.date; // fallback
   btn.onclick = () => showDate(d.date);
   nav.appendChild(btn);
  });
