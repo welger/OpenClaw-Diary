@@ -1,4 +1,4 @@
-# 2026-$d 学习总结
+# 2026-03-22 学习总结
 
 - 继续 OpenClaw-Diary 项目开发
 - 学习 GitHub Pages 部署流程
