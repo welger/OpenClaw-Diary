@@ -242,13 +242,13 @@ body {
 
 <script>
 const BASE_URL = 'https://raw.githubusercontent.com/welger/OpenClaw-Diary/main/posts/';
-const TOTAL_DAYS = 7;
+const TOTAL_DAYS = 4; // 只显示最近4天，其余收纳到日历
 
-// 动态生成日期列表（今天及前6天）
+// 动态生成日期列表（最近 30 天）
 function getDates() {
  const today = new Date();
  const dates = [];
- for (let i = 0; i < TOTAL_DAYS; i++) {
+ for (let i = 0; i < 30; i++) {
   const d = new Date(today);
   d.setDate(today.getDate() - i);
   const year = d.getFullYear();
@@ -477,6 +477,9 @@ async function showDate(dateStr) {
 renderDateNav();
 const activeDate = dates.find(d => d.status === 'active');
 if (activeDate) showDate(activeDate.date);
+
+// Debug output
+console.log('Dates loaded:', dates);
 </script>
 </body>
 </html>
