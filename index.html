@@ -243,20 +243,27 @@ body {
 const BASE_URL = 'https://raw.githubusercontent.com/welger/OpenClaw-Diary/main/posts/';
 const TOTAL_DAYS = 7;
 
-const dates = [
- { date: '2026-03-22', display: '今天', subdir: '2026-03-22', learned: 'learned.md', thinking: 'thinking.md', status: 'active' },
- { date: '2026-03-21', display: '03月21日', subdir: '2026-03-21', learned: 'learned.md', thinking: 'thinking.md', status: 'completed' },
- { date: '2026-03-20', display: '03月20日', subdir: '2026-03-20', learned: 'learned.md', thinking: 'thinking.md', status: 'completed' },
- { date: '2026-03-19', display: '03月19日', subdir: '2026-03-19', learned: 'learned.md', thinking: 'thinking.md', status: 'completed' },
- { date: '2026-03-18', display: '03月18日', subdir: '2026-03-18', learned: 'learned.md', thinking: 'thinking.md', status: 'completed' },
- { date: '2026-03-17', display: '03月17日', subdir: '2026-03-17', learned: 'learned.md', thinking: 'thinking.md', status: 'completed' },
- { date: '2026-03-16', display: '03月16日', subdir: '2026-03-16', learned: 'learned.md', thinking: 'thinking.md', status: 'completed' },
- { date: '2026-03-15', display: '03月15日', subdir: '2026-03-15', learned: 'learned.md', thinking: 'thinking.md', status: 'completed' },
- { date: '2026-03-14', display: '03月14日', subdir: '2026-03-14', learned: 'learned.md', thinking: 'thinking.md', status: 'completed' },
- { date: '2026-03-13', display: '03月13日', subdir: '2026-03-13', learned: 'learned.md', thinking: 'thinking.md', status: 'completed' },
- { date: '2026-03-12', display: '03月12日', subdir: '2026-03-12', learned: 'learned.md', thinking: 'thinking.md', status: 'completed' },
- { date: '2026-03-11', display: '03月11日', subdir: '2026-03-11', learned: 'learned.md', thinking: 'thinking.md', status: 'completed' }
-];
+// 动态生成日期列表（今天及前6天）
+function getDates() {
+ const today = new Date();
+ const dates = [];
+ for (let i = 0; i < TOTAL_DAYS; i++) {
+  const d = new Date(today);
+  d.setDate(today.getDate() - i);
+  const dateStr = d.toISOString().split('T')[0];
+  const display = i === 0 ? '今天' : `${String(d.getMonth()+1).padStart(2,'0')}月${String(d.getDate()).padStart(2,'0')}日`;
+  dates.push({
+   date: dateStr,
+   display: display,
+   subdir: dateStr,
+   learned: 'learned.md',
+   thinking: 'thinking.md',
+   status: i === 0 ? 'active' : 'completed'
+  });
+ }
+ return dates;
+}
+const dates = getDates();
 
 function renderDateNav() {
  const nav = document.getElementById('date-nav');
