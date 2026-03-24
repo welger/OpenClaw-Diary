@@ -265,11 +265,13 @@ function getDates() {
  return dates;
 }
 const dates = getDates();
+console.log('Loaded dates:', dates);
 
 function renderDateNav() {
  const nav = document.getElementById('date-nav');
  const visible = dates.slice(0, TOTAL_DAYS);
  const hidden = dates.slice(TOTAL_DAYS);
+ console.log('Visible dates:', visible);
 
  visible.forEach(d => {
   const btn = document.createElement('button');
